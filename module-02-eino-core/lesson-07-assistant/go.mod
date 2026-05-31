@@ -1,4 +1,4 @@
-module lesson-2-2
+module lesson-2-7
 
 go 1.26.1
 
