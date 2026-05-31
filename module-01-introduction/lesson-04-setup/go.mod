@@ -1,3 +1,3 @@
-module eino-agents-course/module-01-introduction/lesson-04-setup
+module lesson-4
 
-go 1.26
+go 1.26.1

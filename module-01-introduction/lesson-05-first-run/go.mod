@@ -1,6 +1,6 @@
-module eino-agents-course/module-01-introduction/lesson-05-first-run
+module lesson-5
 
-go 1.26
+go 1.26.1
 
 require (
 	github.com/cloudwego/eino v0.9.2
