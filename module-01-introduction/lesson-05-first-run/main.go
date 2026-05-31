@@ -9,28 +9,28 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"log"
+	"context" // контекст: таймаут и отмена запроса к модели
+	"fmt"     // вывод ответа в консоль
+	"log"     // log.Fatalf — остановиться с понятной ошибкой
 
-	"github.com/cloudwego/eino-ext/components/model/ollama"
-	"github.com/cloudwego/eino/schema"
+	"github.com/cloudwego/eino-ext/components/model/ollama" // реализация ChatModel для Ollama
+	"github.com/cloudwego/eino/schema"                      // Message и конструкторы сообщений
 )
 
 const (
-	ollamaBaseURL = "http://localhost:11434"
-	modelName     = "qwen3.5"
+	ollamaBaseURL = "http://localhost:11434" // адрес локального сервера Ollama
+	modelName     = "qwen3.5"                // модель с поддержкой инструментов
 )
 
 func main() {
-	ctx := context.Background()
+	ctx := context.Background() // корневой контекст; таймауты добавим в следующих модулях
 
 	// 1. Создаём ChatModel — обёртку над моделью в Ollama.
-	//    ChatModel в Eino — это интерфейс. Здесь мы берём его реализацию для Ollama,
+	//    ChatModel в Eino — это интерфейс. Здесь берём его реализацию для Ollama,
 	//    но точно так же могли бы подставить OpenAI, не меняя остальной код.
 	chatModel, err := ollama.NewChatModel(ctx, &ollama.ChatModelConfig{
-		BaseURL: ollamaBaseURL,
-		Model:   modelName,
+		BaseURL: ollamaBaseURL, // куда ходить за моделью
+		Model:   modelName,     // какую модель спрашивать
 	})
 	if err != nil {
 		log.Fatalf("не удалось создать ChatModel: %v", err)

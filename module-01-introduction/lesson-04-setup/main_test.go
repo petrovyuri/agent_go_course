@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -20,7 +19,7 @@ func TestFetchModels_OK(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	models, err := fetchModels(context.Background(), srv.URL)
+	models, err := fetchModels(t.Context(), srv.URL)
 	if err != nil {
 		t.Fatalf("неожиданная ошибка: %v", err)
 	}
@@ -43,7 +42,7 @@ func TestFetchModels_BadStatus(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	if _, err := fetchModels(context.Background(), srv.URL); err == nil {
+	if _, err := fetchModels(t.Context(), srv.URL); err == nil {
 		t.Fatal("ожидали ошибку при статусе 500, получили nil")
 	}
 }
@@ -51,7 +50,7 @@ func TestFetchModels_BadStatus(t *testing.T) {
 // TestFetchModels_NoServer проверяет, что обращение к неподнятому серверу возвращает
 // ошибку, а не панику.
 func TestFetchModels_NoServer(t *testing.T) {
-	if _, err := fetchModels(context.Background(), "http://127.0.0.1:1"); err == nil {
+	if _, err := fetchModels(t.Context(), "http://127.0.0.1:1"); err == nil {
 		t.Fatal("ожидали ошибку соединения, получили nil")
 	}
 }

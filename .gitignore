@@ -17,3 +17,5 @@ checks/
 *.exe
 *.test
 *.out
+
+test_local/
