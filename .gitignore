@@ -12,9 +12,10 @@ docs
 # Временные артефакты браузера и проверок
 checks/
 .playwright-mcp/
-test_local/
 
 # Скомпилированные бинарники Go
 *.exe
 *.test
 *.out
+
+test_local/
