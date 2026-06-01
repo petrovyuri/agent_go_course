@@ -1,9 +1,9 @@
 // Mini Code — мини-агент-кодер на Go (Eino + Ollama).
-// Этап 1: каркас. Терминал читает запрос, прогоняет его через граф к модели
+// Модуль 4: каркас. Терминал читает запрос, прогоняет его через граф к модели
 // и печатает ответ. В графе уже стоит маршрутизатор с заготовкой под инструменты
-// (ветка "useTool" — заглушка; реальные инструменты появятся на этапе 2).
+// (ветка "useTool" — заглушка; реальные инструменты появятся в модуле 6).
 //
-// Запуск из папки этапа:
+// Запуск из папки модуля:
 //
 //	go mod tidy
 //	go run .
@@ -70,7 +70,7 @@ func main() {
 
 // buildAgent собирает граф Mini Code: маршрутизатор решает, ответить самому или
 // (в будущем) позвать инструмент. Сейчас инструментов нет, поэтому ветвление
-// всегда ведёт в ветку "respond" — это скелет под этап 2.
+// всегда ведёт в ветку "respond" — это скелет под модуль 6.
 func buildAgent(ctx context.Context) (compose.Runnable[string, *schema.Message], error) {
 	chatModel, err := ollama.NewChatModel(ctx, &ollama.ChatModelConfig{
 		BaseURL: ollamaBaseURL,
@@ -100,15 +100,15 @@ func buildAgent(ctx context.Context) (compose.Runnable[string, *schema.Message],
 	_ = g.AddChatModelNode("model", chatModel)
 
 	// useTool — заглушка под инструменты. Пока недостижима (ветвление туда не ведёт),
-	// но на этапе 2 здесь будет вызов ToolsNode.
+	// но в модуле 6 здесь будет вызов ToolsNode.
 	_ = g.AddLambdaNode("useTool", compose.InvokableLambda(func(ctx context.Context, q string) (*schema.Message, error) {
-		return schema.AssistantMessage("Инструменты появятся на этапе 2 — пока я только отвечаю.", nil), nil
+		return schema.AssistantMessage("Инструменты появятся в модуле 6 — пока я только отвечаю.", nil), nil
 	}))
 
 	_ = g.AddEdge(compose.START, "router")
 
 	// Ветвление: пока инструментов нет — всегда отвечаем сами.
-	// На этапе 2 здесь появится выбор между "respond" и "useTool".
+	// В модуле 6 здесь появится выбор между "respond" и "useTool".
 	branch := compose.NewGraphBranch(
 		func(ctx context.Context, q string) (string, error) {
 			return "respond", nil

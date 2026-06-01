@@ -63,7 +63,8 @@ func main() {
 			break // поток закончился — ответ получен полностью
 		}
 		if err != nil {
-			log.Fatalf("ошибка чтения потока: %v", err)
+			fmt.Printf("\nошибка чтения потока: %v\n", err)
+			return // defer stream.Close() отработает при выходе из функции
 		}
 		fmt.Print(chunk.Content) // печатаем кусочек сразу, не дожидаясь остального
 	}

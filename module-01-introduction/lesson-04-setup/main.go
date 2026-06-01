@@ -6,6 +6,7 @@ package main
 import (
 	"context"       // контекст: таймаут и отмена запроса
 	"encoding/json" // разбор JSON-ответа Ollama
+	"errors"        // errors.New для сигнальной ошибки
 	"fmt"           // вывод в консоль и сборка ошибок
 	"net/http"      // HTTP-клиент для обращения к Ollama
 	"os"            // os.Exit для кода возврата при ошибке
@@ -25,9 +26,19 @@ type tagsResponse struct {
 }
 
 func main() {
+	// main держим тонким: вся логика в run, а os.Exit вызываем только здесь —
+	// уже после того как отработают все defer внутри run.
+	if err := run(); err != nil {
+		os.Exit(1)
+	}
+}
+
+// run проверяет окружение и возвращает ошибку вместо вызова os.Exit.
+// Так отложенный cancel() гарантированно отработает при любом выходе.
+func run() error {
 	// Ограничиваем всё обращение пятью секундами: если сервер завис, не зависнем сами.
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel() // освобождаем ресурсы контекста при выходе из main
+	defer cancel() // освобождаем ресурсы контекста при выходе
 
 	// Запрашиваем у Ollama список установленных моделей.
 	models, err := fetchModels(ctx, ollamaBaseURL)
@@ -36,7 +47,7 @@ func main() {
 		fmt.Printf("✗ Не удалось связаться с Ollama на %s\n", ollamaBaseURL)
 		fmt.Printf("  Причина: %v\n", err)
 		fmt.Println("  Запустите сервер командой `ollama serve` и попробуйте снова.")
-		os.Exit(1) // ненулевой код возврата = ошибка
+		return fmt.Errorf("ollama недоступна: %w", err)
 	}
 
 	// Всё хорошо: показываем адрес и найденные модели.
@@ -49,10 +60,11 @@ func main() {
 	// Список пуст — значит модель ещё не скачана; подсказываем команду.
 	if len(models) == 0 {
 		fmt.Println("\nМоделей нет. Скачайте модель: `ollama pull qwen3.5`")
-		os.Exit(1)
+		return errors.New("модели не найдены")
 	}
 
 	fmt.Println("\nОкружение готово. Можно идти в урок 1.5.")
+	return nil
 }
 
 // fetchModels запрашивает у Ollama список установленных моделей.

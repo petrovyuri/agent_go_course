@@ -1,0 +1,128 @@
+# ──────────────────────────────────────────────────────────────
+# golangci-lint v2 — конфигурация линтера для курса
+# "Создание AI-агентов на Go: Eino, ReAct, RAG, MCP" и проекта Mini Code.
+# Документация: https://golangci-lint.run/docs/configuration/
+# ──────────────────────────────────────────────────────────────
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+output:
+  sort-order:
+    - file
+    - linter
+  show-stats: true
+
+linters:
+  default: standard
+  enable:
+    # ── Поиск багов ───────────────────────────────────────────
+    - errcheck       # все error-возвраты обработаны
+    - bodyclose      # незакрытый HTTP response body
+    - errorlint      # корректный error wrapping (%w, errors.Is/As)
+    - nilnil         # не возвращать nil error вместе с невалидным значением
+    - nilerr         # проверяем err != nil, но возвращаем nil
+    - noctx          # HTTP-вызовы без context.Context
+
+    # ── Статический анализ и стиль ────────────────────────────
+    - staticcheck    # золотой стандарт Go-анализаторов
+    - govet          # vet-проверки стандартной библиотеки
+    - revive         # мета-линтер (замена golint)
+    - gocritic       # диагностика, стиль, производительность
+    - unused         # неиспользуемый код
+    - ineffassign    # бесполезные присваивания
+    - unconvert      # ненужные преобразования типов
+    - wastedassign   # присваивания, результат которых не читается
+
+    # ── Безопасность ──────────────────────────────────────────
+    - gosec          # SQL-инъекции, хардкод-секреты, слабое крипто
+
+    # ── Производительность ────────────────────────────────────
+    - perfsprint     # быстрые альтернативы fmt.Sprintf
+    - durationcheck  # ошибочное умножение time.Duration
+
+    # ── Именование и соглашения ───────────────────────────────
+    - errname        # типы ошибок именуются как XxxError
+    - misspell       # опечатки в комментариях, строках, именах
+
+    # ── Тестирование ──────────────────────────────────────────
+    - thelper        # корректное использование t.Helper()
+
+  settings:
+    errcheck:
+      check-type-assertions: true
+
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - performance
+      disabled-checks:
+        - hugeParam
+        - rangeExprCopy
+        - rangeValCopy
+
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment
+        - shadow
+
+    revive:
+      severity: warning
+      rules:
+        - name: empty-block
+        - name: defer
+          arguments:
+            - [ "call-chain", "loop", "return" ]
+        # Не требуем обрабатывать ошибки этих функций — это легитимный
+        # вывод/буферы, ошибки которых на практике не проверяют.
+        - name: unhandled-error
+          arguments:
+            - "fmt.Fprint"
+            - "fmt.Fprintf"
+            - "fmt.Fprintln"
+            - "fmt.Print"
+            - "fmt.Printf"
+            - "fmt.Println"
+            - "strings.Builder.WriteString"
+            - "strings.Builder.WriteRune"
+            - "strings.Builder.WriteByte"
+
+    gosec:
+      excludes:
+        - G104  # не дублировать errcheck
+
+    staticcheck:
+      checks:
+        - "all"
+        - "-ST1000"  # package-level комментарий не обязателен
+
+    misspell:
+      locale: US
+
+    perfsprint:
+      errorf: false  # не трогать fmt.Errorf (там нужен %w)
+
+  exclusions:
+    presets:
+      - std-error-handling
+      - common-false-positives
+    rules:
+      # В учебных примерах и тестах допускаем непроверенные ошибки.
+      - path: _test\.go
+        linters:
+          - errcheck
+          - gosec
+          - noctx
+          - bodyclose
+          - perfsprint
+      - path: _test\.go
+        linters:
+          - revive
+
+formatters:
+  enable:
+    - gofmt

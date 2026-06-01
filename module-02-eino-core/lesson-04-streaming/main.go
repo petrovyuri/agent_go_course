@@ -57,7 +57,8 @@ func main() {
 			break // io.EOF — это не ошибка, а нормальный конец потока
 		}
 		if err != nil {
-			log.Fatalf("ошибка чтения потока: %v", err)
+			fmt.Printf("\nошибка чтения потока: %v\n", err)
+			return // defer stream.Close() отработает при выходе из функции
 		}
 
 		fmt.Print(chunk.Content)        // показываем кусочек сразу (эффект живого набора)

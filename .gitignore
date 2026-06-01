@@ -19,3 +19,7 @@ checks/
 *.out
 
 test_local/
+app/
+
+.vscode/
+out_fix.json
