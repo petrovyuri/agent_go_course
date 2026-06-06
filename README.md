@@ -1,4 +1,4 @@
-# Создание AI-агентов на Go с нуля: Eino, ReAct, RAG, MCP
+# [Создание AI-агентов на Go с нуля: Eino, ReAct, RAG, MCP](https://stepik.org/a/289593)
 
 Рабочий код к урокам курса. Агенты строятся на фреймворке
 [Eino](https://github.com/cloudwego/eino) от CloudWeGo, модели запускаются локально через
