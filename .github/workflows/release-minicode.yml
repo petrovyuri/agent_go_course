@@ -1,0 +1,106 @@
+name: Build Mini Code (release)
+
+# Собирает Mini Code (minicode/stage-07-ui) при публикации релиза на GitHub.
+# Бинарники для Linux и Windows кладутся:
+#   1) в артефакты прогона (вкладка Actions) — всегда;
+#   2) в ассеты самого релиза (страница Releases) — когда сработал релиз,
+#      чтобы их можно было скачать одним кликом и запустить локально.
+#
+# Запуск:
+#   - автоматически: при публикации релиза (Releases -> Publish release);
+#   - вручную: вкладка Actions -> этот workflow -> Run workflow (для проверки сборки).
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+# Нужно право записи в Contents, чтобы прикрепить файлы к релизу через gh.
+permissions:
+  contents: write
+
+# Каталог с финальной версией Mini Code — отсюда берём go.mod и собираем.
+env:
+  APP_DIR: minicode/stage-07-ui
+
+jobs:
+  # Быстрый gate: vet + unit-тесты (без Ollama). Если падает — релиз не собираем.
+  test:
+    name: Тесты и vet
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ${{ env.APP_DIR }}/go.mod
+          cache-dependency-path: ${{ env.APP_DIR }}/go.sum
+
+      - name: Vet & test
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          go vet ./...
+          go test ./...
+
+  build:
+    name: Сборка ${{ matrix.goos }}/${{ matrix.goarch }}
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            ext: ""
+          - goos: windows
+            goarch: amd64
+            ext: ".exe"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Версию Go берём прямо из go.mod проекта (go-version-file) — не дублируем её.
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ${{ env.APP_DIR }}/go.mod
+          cache-dependency-path: ${{ env.APP_DIR }}/go.sum
+
+      # Кросс-компиляция: один Linux-раннер собирает и под Linux, и под Windows.
+      # CGO_ENABLED=0 -> статический бинарник без внешних зависимостей.
+      # -trimpath и -ldflags="-s -w" убирают пути сборки и отладочную инфо (меньше размер).
+      - name: Build
+        working-directory: ${{ env.APP_DIR }}
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: "0"
+        run: |
+          mkdir -p dist
+          out="dist/minicode-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }}"
+          go build -trimpath -ldflags="-s -w" -o "$out" .
+          ls -la dist
+
+      # Артефакт прогона: доступен на странице запуска во вкладке Actions.
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: minicode-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: ${{ env.APP_DIR }}/dist/*
+          if-no-files-found: error
+          retention-days: 30
+
+      # Ассет релиза: прикрепляем бинарник к самому релизу (только для события release).
+      # Используем встроенный gh + GITHUB_TOKEN — без сторонних экшенов.
+      - name: Attach binary to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            "${{ env.APP_DIR }}"/dist/minicode-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }} \
+            --clobber
