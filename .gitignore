@@ -1,0 +1,31 @@
+# Python (служебное окружение скилла)
+.venv/
+__pycache__/
+*.pyc
+
+# Claude Code
+.claude
+
+# Мои рабочие материалы (планы, черновики уроков, проверочный Go-код) — не в гит
+docs
+
+# Временные артефакты браузера и проверок
+checks/
+.playwright-mcp/
+
+# Секреты — не в гит (ключи LangFuse и т.п.); шаблон .env.example оставляем
+.env
+.env.*
+!.env.example
+
+# Скомпилированные бинарники Go
+*.exe
+*.test
+*.out
+
+test_local/
+app/
+
+.vscode/
+out_fix.json
+minicode/stage-07-ui/session.json
