@@ -1,0 +1,125 @@
+<!--
+  УРОК-СТРАНИЦА: "Карта документации Eino"
+  Курс: Создание AI-агентов на Go: Eino, ReAct, RAG, MCP
+  Вставьте этот HTML в шаг урока на Stepik. Все ссылки ведут на
+  https://www.cloudwego.io/docs/eino/ и сверены с сайдбаром документации.
+-->
+
+<h2>Карта документации Eino</h2>
+
+<p>Эта страница собирает всю официальную документацию Eino, которая пригодится по ходу курса, и раскладывает её по модулям. Каждая ссылка идёт с короткой подписью, куда она ведёт. Держите страницу под рукой как справочник: те же ссылки продублированы в конце соответствующих уроков.</p>
+
+<p>Вся документация живёт на сайте <a href="https://www.cloudwego.io/docs/eino/" rel="noopener noreferrer nofollow">cloudwego.io/docs/eino</a>. Часть страниц про конкретные интеграции (Ollama, MCP, LangFuse) ведёт дальше на README компонента в репозитории eino-ext.</p>
+
+<h3>Модуль 1. Введение</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/overview/" rel="noopener noreferrer nofollow">Обзор Eino</a>: зачем нужен фреймворк и из чего он состоит.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/overview/graph_or_agent/" rel="noopener noreferrer nofollow">Graph или Agent</a>: когда брать граф, а когда готового агента.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/overview/eino_open_source/" rel="noopener noreferrer nofollow">Eino: open-source обзор</a>: история, цели и экосистема проекта.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/" rel="noopener noreferrer nofollow">Quick Start</a>: серия глав от первого вызова модели до полноценного агента.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_01_chatmodel_and_message/" rel="noopener noreferrer nofollow">ChatModel и Message</a>: первый чат и формат сообщений.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/ecosystem_integration/chat_model/" rel="noopener noreferrer nofollow">Интеграции чат-моделей</a>: список поддержанных моделей, включая Ollama.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/" rel="noopener noreferrer nofollow">Ядро Eino</a>: карта трёх слоёв (компоненты, оркестрация, аспекты).</li>
+</ul>
+
+<h3>Модуль 2. Eino Core</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_01_chatmodel_and_message/" rel="noopener noreferrer nofollow">ChatModel и Message</a>: роли System / User / Assistant / Tool.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/chat_model_guide/" rel="noopener noreferrer nofollow">Компонент ChatModel</a>: интерфейс Generate и Stream, реализации, структурированный вывод.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/call_option_capabilities/" rel="noopener noreferrer nofollow">Опции вызова</a>: температура, top-p, лимиты токенов и другие параметры.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/stream_programming_essentials/" rel="noopener noreferrer nofollow">Стриминг в Eino</a>: чтение и склейка чанков ответа.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/chat_template_guide/" rel="noopener noreferrer nofollow">Шаблоны промптов</a>: FString, GoTemplate и Jinja2.</li>
+</ul>
+
+<h3>Модуль 3. Оркестрация</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/orchestration_design_principles/" rel="noopener noreferrer nofollow">Принципы оркестрации</a>: типобезопасность, потоки данных, обработка ошибок.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/chain_graph_introduction/" rel="noopener noreferrer nofollow">Chain и Graph: введение</a>: узлы, рёбра, ветвление, START и END.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/lambda_guide/" rel="noopener noreferrer nofollow">Lambda-узлы</a>: вставка произвольной Go-логики в граф.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/workflow_orchestration_framework/" rel="noopener noreferrer nofollow">Workflow</a>: параллельные ветви и слияние данных.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/devops/ide_plugin_guide/" rel="noopener noreferrer nofollow">Плагин EinoDev: установка</a>: подключение плагина к IDE.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/devops/visual_orchestration_plugin_guide/" rel="noopener noreferrer nofollow">EinoDev: визуальная сборка графа</a>: просмотр и отладка графа.</li>
+</ul>
+
+<h3>Модуль 4. Mini Code: каркас агента</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/overview/" rel="noopener noreferrer nofollow">Обзор Eino</a>: общая картина перед стартом проекта.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/chain_graph_introduction/" rel="noopener noreferrer nofollow">Chain и Graph: введение</a>: на этом строится граф разговора Mini Code.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/devops/visual_orchestration_plugin_guide/" rel="noopener noreferrer nofollow">EinoDev: визуальная сборка графа</a>: смотрим граф Mini Code в плагине.</li>
+</ul>
+
+<h3>Модуль 5. Инструменты и tool-calling</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/tools_node_guide/" rel="noopener noreferrer nofollow">ToolsNode</a>: узел исполнения инструментов в графе.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/tools_node_guide/how_to_create_a_tool/" rel="noopener noreferrer nofollow">Как создать инструмент</a>: tool.Info, InvokableTool, схема параметров.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_04_tool_and_filesystem/" rel="noopener noreferrer nofollow">Инструменты и файловая система</a>: связка модели с инструментами на практике.</li>
+</ul>
+
+<h3>Модуль 6. Mini Code: работа с файлами</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/tools_node_guide/how_to_create_a_tool/" rel="noopener noreferrer nofollow">Как создать инструмент</a>: основа для read_file, list_dir и grep.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_04_tool_and_filesystem/" rel="noopener noreferrer nofollow">Инструменты и файловая система</a>: модель сама выбирает нужный инструмент.</li>
+</ul>
+
+<h3>Модуль 7. ReAct</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/flow_integration_components/react_agent_manual/" rel="noopener noreferrer nofollow">ReAct Agent</a>: готовый агент, конфигурация, запуск, лимит шагов.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/chain_graph_introduction/" rel="noopener noreferrer nofollow">Chain и Graph: введение</a>: как собрать ReAct-цикл из графа вручную.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/stream_programming_essentials/" rel="noopener noreferrer nofollow">Стриминг в Eino</a>: потоковый вывод внутри ReAct-агента.</li>
+</ul>
+
+<h3>Модуль 8. Mini Code: думающий агент</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/flow_integration_components/react_agent_manual/" rel="noopener noreferrer nofollow">ReAct Agent</a>: превращаем линейный вызов Mini Code в настоящий цикл.</li>
+</ul>
+
+<h3>Модуль 9. Состояние, память и надёжность</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/checkpoint_interrupt/" rel="noopener noreferrer nofollow">Checkpoints и interrupt</a>: состояние графа, сохранение и восстановление прогресса.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_03_memory_and_session/" rel="noopener noreferrer nofollow">Память и сессия</a>: история диалога, которая живёт между запусками.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_07_interrupt_resume/" rel="noopener noreferrer nofollow">Interrupt / Resume</a>: human-in-the-loop, пауза и продолжение работы.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_11_turnloop/" rel="noopener noreferrer nofollow">TurnLoop</a>: таймауты, отмена и прерывание хода агента.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/orchestration_design_principles/" rel="noopener noreferrer nofollow">Принципы оркестрации</a>: обработка ошибок узлов.</li>
+</ul>
+
+<h3>Модуль 10. Mini Code: память, правка, подтверждения</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_03_memory_and_session/" rel="noopener noreferrer nofollow">Память и сессия</a>: память диалога для Mini Code.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_04_tool_and_filesystem/" rel="noopener noreferrer nofollow">Инструменты и файловая система</a>: write_file, edit_file и запуск команд.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_07_interrupt_resume/" rel="noopener noreferrer nofollow">Interrupt / Resume</a>: подтверждение перед записью файла и командой.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/checkpoint_interrupt/" rel="noopener noreferrer nofollow">Checkpoints и interrupt</a>: продолжить сессию после перезапуска.</li>
+</ul>
+
+<h3>Модуль 11. RAG и MCP</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/embedding_guide/" rel="noopener noreferrer nofollow">Embedding</a>: векторизация текста.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/indexer_guide/" rel="noopener noreferrer nofollow">Indexer</a>: запись документов в векторное хранилище.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/retriever_guide/" rel="noopener noreferrer nofollow">Retriever</a>: поиск релевантных документов для RAG.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/chain_graph_introduction/" rel="noopener noreferrer nofollow">Chain и Graph: введение</a>: сборка RAG-графа retrieve, prompt, generate.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/flow_integration_components/react_agent_manual/" rel="noopener noreferrer nofollow">ReAct Agent</a>: агентный RAG.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/ecosystem_integration/tool/" rel="noopener noreferrer nofollow">Инструменты экосистемы</a>: подключение MCP-серверов как инструментов.</li>
+</ul>
+
+<h3>Модуль 12. Mini Code: знание проекта</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/indexer_guide/" rel="noopener noreferrer nofollow">Indexer</a>: индексация кодовой базы проекта.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/ecosystem_integration/embedding/" rel="noopener noreferrer nofollow">Интеграции эмбеддингов</a>: эмбеддинги через Ollama.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/components/retriever_guide/" rel="noopener noreferrer nofollow">Retriever</a>: поиск релевантных файлов перед ответом.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/flow_integration_components/react_agent_manual/" rel="noopener noreferrer nofollow">ReAct Agent</a>: RAG внутри агента.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/ecosystem_integration/tool/" rel="noopener noreferrer nofollow">Инструменты экосистемы</a>: filesystem и git-серверы по MCP.</li>
+</ul>
+
+<h3>Модуль 13. Наблюдаемость (LangFuse)</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/chain_and_graph_orchestration/callback_manual/" rel="noopener noreferrer nofollow">Callbacks: руководство</a>: OnStart, OnEnd, OnError для отладки.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/ecosystem_integration/callbacks/" rel="noopener noreferrer nofollow">Интеграции callbacks</a>: подключение LangFuse.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_06_callback_and_trace/" rel="noopener noreferrer nofollow">Callbacks и трейсинг</a>: наблюдаемость агента и чтение трейсов.</li>
+</ul>
+
+<h3>Модуль 14. Mini Code: финал и прод-готовность</h3>
+<ul>
+	<li><a href="https://www.cloudwego.io/docs/eino/quick_start/chapter_06_callback_and_trace/" rel="noopener noreferrer nofollow">Callbacks и трейсинг</a>: трейсинг Mini Code через LangFuse.</li>
+	<li><a href="https://www.cloudwego.io/docs/eino/core_modules/flow_integration_components/multi_agent_hosting/" rel="noopener noreferrer nofollow">Мульти-агентные системы</a>: куда расти дальше после курса.</li>
+</ul>
+
+<p>Полировка CLI и терминальный интерфейс Mini Code (флаги, Bubble Tea) к Eino напрямую не относятся, поэтому профильной страницы в документации для них нет.</p>
